@@ -708,30 +708,33 @@ void alarmhandler(int sig)
 	apm_info cur_info;
 	int old_status;
 
-#ifdef UPOWER
-	if (use_upower) {
-		if (upower_read(1, &cur_info) != 0)
-			error("Cannot read upower information.");
-	} else if (use_acpi) {
-#else
-	if (use_acpi) {
-#endif
-		if (acpi_read(battnum, &cur_info) != 0)
-			error("Cannot read ACPI information.");
-	}
-#ifdef HAL
-	else if (use_simplehal) {
-		if (simplehal_read(battnum, &cur_info) != 0)
-			error("Cannot read HAL information.");
-	}
-#endif
-	else if (!use_sonypi) {
-		if (apm_read(&cur_info) != 0)
-			error("Cannot read APM information.");
-	} else {
-		if (sonypi_read(&cur_info) != 0)
-			error("Cannot read sonypi information.");
-	}
+  if (apm_read(&cur_info) != 1)
+    error("Cannot read APM information.");
+
+/* #ifdef UPOWER */
+/* 	if (use_upower) { */
+/* 		if (upower_read(1, &cur_info) != 0) */
+/* 			error("Cannot read upower information."); */
+/* 	} else if (use_acpi) { */
+/* #else */
+/* 	if (use_acpi) { */
+/* #endif */
+/* 		if (acpi_read(battnum, &cur_info) != 0) */
+/* 			error("Cannot read ACPI information."); */
+/* 	} */
+/* #ifdef HAL */
+/* 	else if (use_simplehal) { */
+/* 		if (simplehal_read(battnum, &cur_info) != 0) */
+/* 			error("Cannot read HAL information."); */
+/* 	} */
+/* #endif */
+/* 	else if (!use_sonypi) { */
+/* 		if (apm_read(&cur_info) != 0) */
+/* 			error("Cannot read APM information."); */
+/* 	} else { */
+/* 		if (sonypi_read(&cur_info) != 0) */
+/* 			error("Cannot read sonypi information."); */
+/* 	} */
 
 	old_status = cur_info.battery_status;
 
